@@ -3,13 +3,13 @@
 <form method="POST" action="/">
 	<%# name=name_underscore id=name-dash %>
 	<label for="names">Names: </label>
-	<input type="text" id="names" name="names" value="Robert, Harkamal, Tom, Cerize, Kaia, Mark, Michael O, Jamey, Gitica, Stephen, Michael L, Tony, Jennifer, Mallinath, Sam, Jacob, Kelvin, Samantha, An, Ryan, Andrew, Sheelove, Eli, Stanley">
+	<input type="text" id="names" name="names" value="Harkamal, Tom, Cerize, Kaia, Mark, Michael O, Jamey, Gitica, Stephen, Michael L, Tony, Jennifer, Mallinath, Sam, Jacob, Kelvin, Samantha, An, Ryan, Andrew, Sheelove, Eli, Stanley">
 	
 	<label for="names">Number: </label>
-	<input type="text" name="number" value="2">
-	<input type="radio" name="method" id="m1" value=0 <% if @method == "0" %>selected<% end %>>
+	<input type="text" name="number" value=<%= @number %>>
+	<input type="radio" name="method" id="m1" value=0 <% if @method == 0 %>checked<% end %>>
 	<label for="m1">People in Teams </label>
-	<input type="radio" name="method" id="m2" value=1 <% if @method == "1" %>selected<% end %>>
+	<input type="radio" name="method" id="m2" value=1 <% if @method == 1 %>checked<% end %>>
 	<label for="m2">Number of Teams </label>
 	<input type="submit" value="Pick One!">
 </form>

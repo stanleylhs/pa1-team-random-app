@@ -10,17 +10,27 @@ get "/" do
 end
 
 post "/" do
-  # shuffle
+  # shuffle and each_slice
   names = params[:names].split(/\s*,\s*/) 
+  p names.length
   @result = names[rand(names.length)]
   @teams = []
-  @number = params[:number].to_f
+  @number = params[:number].to_i
   @method = params[:method].to_i
   if @method == 0
-    num_in_team = @number.to_i
+    if @number > names.length
+      @message = "Error, the number of people in a team is larger than to people in the list"
+      #break
+    else
+      num_in_team = @number
+    end
   elsif @method == 1
-    # if number > 
-    num_in_team = (names.length / @number).ceil
+    if @number > names.length
+      @message = "Error, the number of teams is larger than to people in the list"
+      #break
+    else
+      num_in_team = (names.length / @number.to_f).floor
+    end
   end
 
   until names.empty?
@@ -31,6 +41,15 @@ post "/" do
       names.delete(names[rand_no])
     end
     @teams << temp_team
+    if @method == 1 && @teams.length >= @number
+      i = 0
+      until names.empty?
+        rand_no = rand(names.length)
+        @teams[i] << names[rand_no]
+        names.delete(names[rand_no])
+        i += 1
+      end
+    end
   end
   erb :index, layout: :application
 end
