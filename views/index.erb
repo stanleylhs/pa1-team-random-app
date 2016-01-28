@@ -16,6 +16,10 @@
 </form>
 
 <% if @result %>
-	The winner is: <%= @result %>
-	The teams are: <%= @teams %>
+	The winner is: <%= @result %><br>
+	The teams are: <br>
+	<% @teams.each_index do |i| %>
+		Team <%= i+1 %>:
+		<%= @teams[i].join(", ") %><br>
+	<% end %>	
 <% end %>
