@@ -5,37 +5,28 @@ enable :sessions
 
 def team_random(names, number, method)
   teams = [] 
-  if method == 0
-    if number > names.length
-      message = "Error, the number of people in a team is larger than to people in the list"
-      #break
-    else
-      if number == names.length
-        method = 1
-        number = 1
-      elsif number/2 >= names.length%number
-        method = 1
-        number = (names.length/number.to_f).ceil
-      elsif number >= names.length/2 || number-1 >= names.length/2
-        method = 1
-        number = 2  
-      else
-        num_in_team = number
-      end
-    end
-  end
-  if method == 1
-    if number > names.length
-      message = "Error, the number of teams is larger than to people in the list"
-      #break
-    else
-      num_in_team = (names.length / number.to_f).floor
-    end
+  message = "Error, a number is not entered or it is zero." if number == 0
+  if number > names.length
+    message ||= "Error, the number of people in a team is larger than to people in the list" if method == 0 
+    message ||= "Error, the number of teams is larger than to people in the list" if method == 1
   end
 
   if message
     teams = message
   else
+    if method == 0
+      # equal case
+      if number == names.length   
+        number = 1
+      # half case 
+      elsif number >= names.length/2 || number-1 >= names.length/2
+        number = 2
+      # cal num of team
+      else  
+        number = (names.length/number.to_f).ceil
+      end
+    end
+    num_in_team = (names.length / number.to_f).floor
     until names.empty?
       temp_team = []
       until (temp_team.length == num_in_team) || names.empty?
@@ -44,7 +35,7 @@ def team_random(names, number, method)
         names.delete(names[rand_no])
       end
       teams << temp_team
-      if method == 1 && teams.length >= number
+      if teams.length >= number
         i = 0
         until names.empty?
           rand_no = rand(names.length)
@@ -78,6 +69,6 @@ post "/" do
   number = params[:number].to_i
   method = params[:method].to_i
   
-  session[:teams] = team_random(names,number,method) if session[:teams].nil? 
+  session[:teams] = team_random(names,number,method)
   erb :index, layout: :application
 end
