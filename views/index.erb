@@ -15,11 +15,15 @@
 	<input type="submit" value="Pick One!">
 </form>
 
-<% if @result %>
-	The winner is: <%= @result %><br>
+<% if session[:result] %>
+	The winner is: <%= session[:result] %><br>
 	The teams are: <br>
-	<% @teams.each_index do |i| %>
-		Team <%= i+1 %>:
-		<%= @teams[i].join(", ") %><br>
+	<% if session[:teams].is_a?(Array) %>
+		<% session[:teams].each_index do |i| %>
+			Team <%= i+1 %>:
+		<%= session[:teams][i].join(", ") %><br>
+		<% end %>
+	<% else %>
+		<%= session[:teams] %>
 	<% end %>	
 <% end %>
